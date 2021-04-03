@@ -10,5 +10,8 @@
       "psr-4": {
          "": "./src"
       }
+   },
+   "scripts": {
+      "build": "php -dphar.readonly=0 compiler.php --make ./ --out plugin.phar"
    }
 }
