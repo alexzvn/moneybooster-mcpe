@@ -1,0 +1,43 @@
+###################################################################################
+#        __  __                        ____                  _                    #
+#       |  \/  |                      |  _ \                | |                   #
+#       | \  / | ___  _ __   ___ _   _| |_) | ___   ___  ___| |_ ___ _ __         #
+#       | |\/| |/ _ \| '_ \ / _ \ | | |  _ < / _ \ / _ \/ __| __/ _ \ '__|        #
+#       | |  | | (_) | | | |  __/ |_| | |_) | (_) | (_) \__ \ ||  __/ |           #
+#       |_|  |_|\___/|_| |_|\___|\__, |____/ \___/ \___/|___/\__\___|_|           #
+#                                 __/ |                                           #
+#                                |___/                                            #
+#                                                                                 #
+###################################################################################
+#                  https://github.com/alexzvn/moneybooster-mcpe                   #
+###################################################################################
+
+# Cẫu hình chỗ nhận nạp thẻ
+card:
+  # Hiện tại hỗ trợ bên cardvip. 
+  # Nếu có những bên khác thì phát triển sau
+  driver: cardvip
+
+  # Api key bên nạp thẻ đưa
+  secret: 'api-key'
+
+
+# Thường thì nạp thẻ sẽ không nhận được ngay
+# Bên gạch thẻ trả về sau khi có kết quả
+callback:
+
+  # Cổng server callback nhận kết quả trả về
+  # thường thì sẽ lên chỗ gạch thẻ để nhập url callback
+  # 
+  # URL callback có cú pháp: http://tenmien.com:port
+  # Ví dụ: http://alexzvn.com:8080
+  # hoặc : http://127.0.0.1:8080
+  port: 8080
+
+# Thưởng thêm, tính theo tỉ lệ %.
+# Mặc định ở dưới là Thưởng thêm 10%
+bonus: 10
+
+# Tỷ lệ chuyển đổi
+# ví dụ: 1000 vnd = 1 point
+ratio: 1000

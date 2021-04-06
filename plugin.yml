@@ -1,19 +1,20 @@
 #name, main, version and api are required
-name: ExamplePlugin
-main: ExamplePlugin\MainClass
-version: 1.1.0
+name: MoneyBooster
+main: MoneyBooster\MoneyBooster
+version: 1.0.0
 api: 3.0.0
 
 load: POSTWORLD
-author: PocketMine Team
-description: Example plugin showing the new API
-website: https://github.com/pmmp/ExamplePlugin
+author: Alexzvn
+description: Plugin đi nạp thẻ cho member
+website: https://github.com/alexzvn/moneybooster-mcpe
 commands:
- example:
-  description: Example command
-  usage: "/example"
-  permission: exampleplugin.command.example
+ napthe:
+  description: Lệnh nạp thẻ
+  usage: "/napthe <mã thẻ> <seri> [loại thẻ]"
+  permission: moneybooster.napthe.use
+
 permissions:
- exampleplugin.command.example:
-  description: "Allows the user to run the example command"
+ moneybooster.napthe.use:
+  description: "Cho người chơi nạp thẻ"
   default: true
