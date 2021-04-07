@@ -1,6 +1,6 @@
 #name, main, version and api are required
 name: MoneyBooster
-main: MoneyBooster\MoneyBooster
+main: Alexzvn\MoneyBooster\MoneyBooster
 version: 1.0.0
 api: 3.0.0
 

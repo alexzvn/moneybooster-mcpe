@@ -1,6 +1,6 @@
 <?php
 
-namespace MoneyBooster\Web;
+namespace Alexzvn\MoneyBooster\Web;
 
 use pocketmine\Thread;
 

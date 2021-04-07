@@ -1,5 +1,5 @@
 <?php
 
-namespace MoneyBooster\Web;
+namespace Alexzvn\MoneyBooster\Web;
 
 class Exception extends \Exception {}

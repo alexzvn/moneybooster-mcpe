@@ -1,6 +1,6 @@
 <?php
 
-namespace MoneyBooster\Card;
+namespace Alexzvn\MoneyBooster\Card;
 
 final class Viettel extends Card
 {

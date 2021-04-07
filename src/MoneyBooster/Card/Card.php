@@ -1,8 +1,8 @@
 <?php
 
-namespace MoneyBooster\Card;
+namespace Alexzvn\MoneyBooster\Card;
 
-use MoneyBooster\Contracts\CardContract;
+use Alexzvn\MoneyBooster\Contracts\CardContract;
 use ReflectionClass;
 
 /**

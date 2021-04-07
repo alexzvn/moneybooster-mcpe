@@ -1,6 +1,6 @@
 <?php
 
-namespace MoneyBooster\Card;
+namespace Alexzvn\MoneyBooster\Card;
 
 final class Garena extends Card
 {

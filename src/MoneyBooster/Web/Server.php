@@ -1,8 +1,8 @@
 <?php
 
-namespace MoneyBooster\Web;
+namespace Alexzvn\MoneyBooster\Web;
 
-use MoneyBooster\Web\Exception;
+use Alexzvn\MoneyBooster\Web\Exception;
 use sekjun9878\RequestParser\Request;
 use sekjun9878\RequestParser\RequestParser;
 

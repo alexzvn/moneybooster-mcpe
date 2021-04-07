@@ -1,8 +1,8 @@
 <?php
 
-namespace MoneyBooster\Drivers;
+namespace Alexzvn\MoneyBooster\Drivers;
 
-use MoneyBooster\Contracts\BoosterResponseContract;
+use Alexzvn\MoneyBooster\Contracts\BoosterResponseContract;
 use Psr\Http\Message\ResponseInterface;
 
 abstract class BoosterResponse implements BoosterResponseContract

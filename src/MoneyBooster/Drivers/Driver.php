@@ -1,9 +1,9 @@
 <?php
 
-namespace MoneyBooster\Drivers;
+namespace Alexzvn\MoneyBooster\Drivers;
 
 use GuzzleHttp\Client;
-use MoneyBooster\Contracts\BoosterDriverContract;
+use Alexzvn\MoneyBooster\Contracts\BoosterDriverContract;
 
 abstract class Driver implements BoosterDriverContract
 {

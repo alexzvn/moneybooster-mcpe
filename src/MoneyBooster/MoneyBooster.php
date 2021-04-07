@@ -1,10 +1,10 @@
 <?php
 
-namespace MoneyBooster;
+namespace Alexzvn\MoneyBooster;
 
-use MoneyBooster\Web\AsyncServer;
-use MoneyBooster\Web\Response;
-use MoneyBooster\Web\Server as Web;
+use Alexzvn\MoneyBooster\Web\AsyncServer;
+use Alexzvn\MoneyBooster\Web\Response;
+use Alexzvn\MoneyBooster\Web\Server as Web;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\plugin\PluginBase;

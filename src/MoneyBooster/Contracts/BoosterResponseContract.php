@@ -1,6 +1,6 @@
 <?php
 
-namespace MoneyBooster\Contracts;
+namespace Alexzvn\MoneyBooster\Contracts;
 
 interface BoosterResponseContract
 {
