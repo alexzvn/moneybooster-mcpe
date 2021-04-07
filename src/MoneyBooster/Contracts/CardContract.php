@@ -24,6 +24,8 @@ interface CardContract
 
     public function code(): string;
 
+    public function amount(): int;
+
     public function telecom(): int;
 
     public function validate(): bool;

@@ -35,6 +35,11 @@ interface BoosterResponseContract
     public const API_ERROR = 5;
 
     /**
+     * Unknown status from server
+     */
+    public const UNKNOWN = 10;
+
+    /**
      * Get status of response
      *
      * @return integer
@@ -54,11 +59,4 @@ interface BoosterResponseContract
      * @return boolean
      */
     public function isError(): bool;
-
-    /**
-     * Get amount of card
-     *
-     * @return integer
-     */
-    public function amount(): int;
 }
