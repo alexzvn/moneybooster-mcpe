@@ -4,12 +4,7 @@ namespace MoneyBooster\Card;
 
 final class Viettel extends Card
 {
-    public function telecom(): int
-    {
-        return static::VIETTEL;
-    }
-
-    public function validate(): bool
+    public function validateNumber(): bool
     {
         [$serial, $code] = [$this->seri, $this->code];
 

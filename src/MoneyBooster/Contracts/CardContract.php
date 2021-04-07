@@ -10,7 +10,7 @@ interface CardContract
 
     public const MOBIFONE = 3;
 
-    public const VIETNAM_MOBILE = 4;
+    public const VIETNAMMOBILE = 4;
 
     public const ZING = 5;
 
