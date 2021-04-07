@@ -2,40 +2,68 @@
 
 namespace Alexzvn\MoneyBooster;
 
+use Alexzvn\MoneyBooster\Contracts\BoosterDriverContract;
+use Alexzvn\MoneyBooster\Drivers\Cardvip\CardvipDriver;
 use Alexzvn\MoneyBooster\Web\AsyncServer;
-use Alexzvn\MoneyBooster\Web\Response;
-use Alexzvn\MoneyBooster\Web\Server as Web;
-use pocketmine\command\Command;
-use pocketmine\command\CommandSender;
+use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\Container as ContainerContract;
 use pocketmine\plugin\PluginBase;
-
+use pocketmine\utils\Config;
 
 class MoneyBooster extends PluginBase {
 
-    protected ?AsyncServer $web;
+    protected ?ContainerContract $container;
 
     public function onLoad() : void
     {
         $this->saveDefaultConfig();
 
-        $this->web = new AsyncServer(
-            new Web('0.0.0.0', 1234),
-            fn () => new Response('hello world')
-        );
+        $this->container = Container::getInstance();
+
+        $this->register();
     }
 
     public function onEnable() : void
     {
-        $this->web->start();
+        $this->register();
     }
 
     public function onDisable() : void
     {
-        $this->web->quit();
+        $this->unregister();
     }
 
-    public function onCommand(CommandSender $sender, Command $command, string $label, array $args) : bool
+    /**
+     * Remove all abstract
+     *
+     * @return void
+     */
+    public function unregister(): void
     {
-        return false;
+        $this->container->flush();
+    }
+
+    /**
+     * Register all abstract to container
+     *
+     * @return void
+     */
+    public function register(): void
+    {
+        $this->container->singleton(ContainerContract::class, $this->container);
+
+        $this->container->bind(Config::class, $this->getConfig());
+
+        $this->registerDriver();
+    }
+
+    public function registerDriver()
+    {
+        $driver = [
+            'cardvip' => CardvipDriver::class
+
+        ][$this->getConfig()->get('card.driver')];
+
+        $this->container->bind(BoosterDriverContract::class, $driver);
     }
 }
