@@ -8,31 +8,33 @@ use Alexzvn\MoneyBooster\Contracts\BoosterDriverContract;
 use Alexzvn\MoneyBooster\Contracts\CardContract;
 use Alexzvn\MoneyBooster\Exception\MoreThanOneCardFoundException;
 use Alexzvn\MoneyBooster\Exception\NoCardFoundException;
+use pocketmine\utils\Config;
 use sekjun9878\RequestParser\Request;
 
 abstract class Driver implements BoosterDriverContract
 {
     protected Client $client;
 
-    /**
-     * API key
-     */
-    protected string $secret = '';
+    protected Config $config;
 
     /**
      * @var string[]
      */
     protected static array $cards = [
-
+        // Card that available on driver
     ];
 
-    public function __construct(string $apiKey) {
+    public function __construct(Config $config) {
         $this->client = new Client([
             'base_uri' => $this->api()
         ]);
 
-        $this->secret = $apiKey;
+        $this->config = $config;
+
+        $this->boot();
     }
+
+    abstract protected function boot(): void;
 
     public static function makeCard(string $code, string $seri, int $amount): CardContract
     {

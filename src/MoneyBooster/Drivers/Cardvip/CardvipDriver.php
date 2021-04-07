@@ -21,6 +21,25 @@ class CardvipDriver extends Driver
         \Alexzvn\MoneyBooster\Card\Vcoin::class,
     ];
 
+    protected string $secret = '';
+
+    /**
+     * base url
+     */
+    protected string $callback = '';
+
+    public function boot(): void
+    {
+        $config = $this->config;
+
+        $this->secret = $config->get('card.secret');
+
+        $callback = $config->get('callback.ssl') ? 'https://' : 'http://';
+        $callback .= $config->get('callback.ip') . ':' . $config->get('callback.port');
+
+        $this->callback = $callback;
+    }
+
     protected function api(): string
     {
         return 'https://partner.cardvip.vn/';
@@ -34,7 +53,8 @@ class CardvipDriver extends Driver
             'PricesExchange' => $card->amount(),
             'NumberCard'     => $card->code(),
             'SeriCard'       => $card->seri(),
-            'RequestId'      => $player->getLowerCaseName()
+            'RequestId'      => $player->getLowerCaseName(),
+            'UrlCallback'    => $this->callback
         ]);
 
         return new CardvipResponse($response);
