@@ -1,6 +1,6 @@
 <?php
 
-use Alexzvn\MoneyBooster\Card\Card;
+namespace Alexzvn\MoneyBooster\Card;
 
 final class Vinaphone extends Card
 {
