@@ -26,6 +26,13 @@ card:
 # Bên gạch thẻ trả về sau khi có kết quả
 callback:
 
+  # Sử dụng https trong trường hợp cẫu hình đặc biệt
+  ssl: false
+
+  # Tên miền hoặc ip của server minecraft
+  # phục vụ cho việc nạp thẻ cho người chơi
+  ip: myipserver.com
+
   # Cổng server callback nhận kết quả trả về
   # thường thì sẽ lên chỗ gạch thẻ để nhập url callback
   # 
