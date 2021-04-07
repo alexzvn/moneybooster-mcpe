@@ -3,9 +3,7 @@
 namespace MoneyBooster\Card;
 
 use MoneyBooster\Contracts\CardContract;
-use Reflection;
 use ReflectionClass;
-use ReflectionClassConstant;
 
 /**
  * @var int $amount
