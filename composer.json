@@ -17,7 +17,7 @@
    "scripts": {
       "test": "vendor/bin/phpstan analyze",
       "dev": "composer install --ignore-platform-reqs",
-      "production": "composer install --no-dev --ignore-platform-reqs && rm -rf dist/*",
+      "production": "rm -rf vendor && rm -rf dist && mkdir dist",
       "build": "composer run production && php -dphar.readonly=0 compiler.php --make ./ --out dist/MoneyBooster-1.0.0.phar"
    }
 }
