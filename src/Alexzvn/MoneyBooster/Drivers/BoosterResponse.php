@@ -3,11 +3,10 @@
 namespace Alexzvn\MoneyBooster\Drivers;
 
 use Alexzvn\MoneyBooster\Contracts\BoosterResponseContract;
-use Psr\Http\Message\ResponseInterface;
 
 abstract class BoosterResponse implements BoosterResponseContract
 {
-    protected ResponseInterface $response;
+    protected string $response;
 
     /**
      * data after decode
@@ -16,13 +15,13 @@ abstract class BoosterResponse implements BoosterResponseContract
      */
     protected $data;
 
-    public function __construct(ResponseInterface $response) {
+    public function __construct(string $response) {
         $this->response = $response;
         $this->decode();
     }
 
     public function decode(): void
     {
-        $this->data = json_decode((string) $this->response->getBody());
+        $this->data = json_decode($this->response);
     }
 }

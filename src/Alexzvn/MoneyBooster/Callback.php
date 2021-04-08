@@ -6,17 +6,37 @@ use Alexzvn\MoneyBooster\Contracts\BoosterCallbackContract;
 use Alexzvn\MoneyBooster\Drivers\BoosterCallback;
 use Alexzvn\MoneyBooster\Drivers\Driver;
 use onebone\pointapi\PointAPI;
-use sekjun9878\RequestParser\Request;
+use pocketmine\utils\Config;
+use Alexzvn\MoneyBooster\Web\Parser\Request;
+use Alexzvn\MoneyBooster\Web\Parser\RequestParser;
+use pocketmine\scheduler\Task;
 
-class Callback
+class Callback extends Task
 {
-    protected MoneyBooster $plugin;
-
     protected Driver $driver;
 
-    public function __construct(MoneyBooster $plugin, Driver $driver) {
-        $this->plugin = $plugin;
+    protected Config $config;
+
+    protected MoneyBooster $plugin;
+
+    public function __construct(MoneyBooster $plugin, Driver $driver, Config $config) {
         $this->driver = $driver;
+        $this->config = $config;
+    }
+
+    public function onRun(int $currentTick): void
+    {
+        foreach (glob($this->plugin->getDataFolder() . '/pending/*.raw') as $file) {
+            $request = file_get_contents($file);
+
+            $parser = new RequestParser;
+
+            $parser->addData($request);
+
+            $this->__invoke(Request::create($parser->exportRequestState()));
+
+            unlink($file);
+        }
     }
 
     protected function handleTransaction(BoosterCallbackContract $request): void
@@ -37,14 +57,14 @@ class Callback
 
     private function convertRatio(int $amount): int
     {
-        $ratio = (int) $this->plugin->getConfig()->get('ratio', 1);
+        $ratio = (int) $this->config->get('ratio', 1);
 
         return (int) ($amount/$ratio);
     }
 
     private function convertBonus(int $amount): int
     {
-        $bonus = (int) $this->plugin->getConfig()->get('bonus', 0);
+        $bonus = (int) $this->config->get('bonus', 0);
 
         $amount += ($bonus/100) * $amount;
 

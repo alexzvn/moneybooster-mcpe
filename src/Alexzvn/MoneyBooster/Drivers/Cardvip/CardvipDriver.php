@@ -7,7 +7,7 @@ use Alexzvn\MoneyBooster\Drivers\Driver;
 use Alexzvn\MoneyBooster\Contracts\CardContract;
 use Alexzvn\MoneyBooster\Contracts\BoosterResponseContract;
 use pocketmine\Player;
-use sekjun9878\RequestParser\Request;
+use Alexzvn\MoneyBooster\Web\Parser\Request;
 
 class CardvipDriver extends Driver
 {
@@ -30,12 +30,11 @@ class CardvipDriver extends Driver
 
     public function boot(): void
     {
-        $config = $this->config;
+        $address      = (object) $this->config->get('callback');
+        $this->secret = $this->config->getNested('card.secret');
 
-        $this->secret = $config->get('card.secret');
-
-        $callback = $config->get('callback.ssl') ? 'https://' : 'http://';
-        $callback .= $config->get('callback.ip') . ':' . $config->get('callback.port');
+        $callback = ($address->ssl ?? false) ? 'https://' : 'http://';
+        $callback .= "$address->ip:$address->port";
 
         $this->callback = $callback;
     }
@@ -47,7 +46,7 @@ class CardvipDriver extends Driver
 
     public function request(CardContract $card, Player $player): BoosterResponseContract
     {
-        $response = $this->client->post('api/createExchange', [
+        $response = $this->post('api/createExchange', [
             'APIKey'         => $this->secret,
             'NetworkCode'    => $card->telecom(),
             'PricesExchange' => $card->amount(),

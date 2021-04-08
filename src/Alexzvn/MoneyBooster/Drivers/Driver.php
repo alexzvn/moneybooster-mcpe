@@ -3,18 +3,15 @@
 namespace Alexzvn\MoneyBooster\Drivers;
 
 use Alexzvn\MoneyBooster\Contracts\BoosterCallbackContract;
-use GuzzleHttp\Client;
 use Alexzvn\MoneyBooster\Contracts\BoosterDriverContract;
 use Alexzvn\MoneyBooster\Contracts\CardContract;
 use Alexzvn\MoneyBooster\Exception\MoreThanOneCardFoundException;
 use Alexzvn\MoneyBooster\Exception\NoCardFoundException;
 use pocketmine\utils\Config;
-use sekjun9878\RequestParser\Request;
+use Alexzvn\MoneyBooster\Web\Parser\Request;
 
 abstract class Driver implements BoosterDriverContract
 {
-    protected Client $client;
-
     protected Config $config;
 
     /**
@@ -25,10 +22,6 @@ abstract class Driver implements BoosterDriverContract
     ];
 
     public function __construct(Config $config) {
-        $this->client = new Client([
-            'base_uri' => $this->api()
-        ]);
-
         $this->config = $config;
 
         $this->boot();
@@ -101,4 +94,19 @@ abstract class Driver implements BoosterDriverContract
      * @return string base uri
      */
     abstract protected function api(): string;
+
+    protected function post(string $uri, array $data = [])
+    {
+        $context = [
+            'method' => 'POST',
+            'header' => 'Content-type: application/json',
+            'content' => json_encode($data)
+        ];
+
+        $context = stream_context_create(['http' => $context]);
+
+        $url = rtrim($this->api(), '/') . '/' . ltrim($uri, '/');
+
+        return file_get_contents($url, false, $context);
+    }
 }

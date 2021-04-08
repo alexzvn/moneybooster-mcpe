@@ -3,10 +3,10 @@
 namespace Alexzvn\MoneyBooster\Web;
 
 use Alexzvn\MoneyBooster\Web\Exception;
-use sekjun9878\RequestParser\Request;
-use sekjun9878\RequestParser\RequestParser;
+use Alexzvn\MoneyBooster\Web\Parser\Request;
+use Alexzvn\MoneyBooster\Web\Parser\RequestParser;
 
-class Server 
+class WebServer
 {
     /**
      * The current host
@@ -40,12 +40,6 @@ class Server
     {
         $this->host = $host;
         $this->port = $port;
-
-        // create a socket
-        $this->createSocket();
-
-        // bind the socket
-        $this->bind();
     }
 
     /**
@@ -56,8 +50,12 @@ class Server
     protected function createSocket(): void
     {
         $this->socket = socket_create(AF_INET, SOCK_STREAM, 0);
+
+        if ($this->socket === false) {
+            throw new \Exception(socket_last_error(), 1);
+        }
     }
-    
+
     /**
      * Bind the socket resource
      *
@@ -77,10 +75,12 @@ class Server
      * @param callable $callback
      * @return void 
      */
-    public function listen(callable $callback): void
+    public function listen($callback): void
     {
-        while (true) {
+        $this->createSocket();
+        $this->bind();
 
+        while (true) {
             socket_listen($this->socket);
 
             if (! $client = socket_accept($this->socket)) {
@@ -89,18 +89,18 @@ class Server
 
             // create new request instance with the clients header.
             // In the real world of course you cannot just fix the max size to 1024..
-            $request = $this->createRequest(socket_read($client, 1024));
+            $request = socket_read($client, 1024);
 
             $response = $callback($request);
 
-            if ( !$response || !$response instanceof Response) {
-                $response = Response::error(404);
-            }
+            // if ( !$response || !$response instanceof Response) {
+            //     $response = Response::error(404);
+            // }
 
-            $response = (string) $response;
+            $response ??= "HTTP/1.1 200 OK\r\n\r\n <h1>ACCEPTED</h1>";
 
             // write the response to the client socket
-            socket_write( $client, $response, strlen( $response ) );
+            socket_write($client, $response, strlen($response));
 
             socket_close($client);
         }

@@ -6,11 +6,11 @@ use pocketmine\Thread;
 
 class AsyncServer extends Thread
 {
-    protected Server $web;
+    protected WebServer $web;
 
-    protected callable $handler;
+    protected $handler;
 
-    public function __construct(Server $web, callable $handler) {
+    public function __construct(WebServer $web, $handler) {
         $this->web = $web;
         $this->handler = $handler;
     }

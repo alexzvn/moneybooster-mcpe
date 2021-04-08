@@ -3,7 +3,7 @@
 namespace Alexzvn\MoneyBooster\Drivers\Cardvip;
 
 use Alexzvn\MoneyBooster\Drivers\BoosterCallback;
-use sekjun9878\RequestParser\Request;
+use Alexzvn\MoneyBooster\Web\Parser\Request;
 
 class CardvipCallback extends BoosterCallback
 {

@@ -3,27 +3,30 @@
 namespace Alexzvn\MoneyBooster;
 
 use Alexzvn\MoneyBooster\Commands\NaptheCommand;
-use Alexzvn\MoneyBooster\Contracts\BoosterDriverContract;
 use Alexzvn\MoneyBooster\Drivers\Cardvip\CardvipDriver;
+use Alexzvn\MoneyBooster\Drivers\Driver;
 use Alexzvn\MoneyBooster\Web\AsyncServer;
-use Alexzvn\MoneyBooster\Web\Server;
-use Illuminate\Container\Container;
-use Illuminate\Contracts\Container\Container as ContainerContract;
+use Alexzvn\MoneyBooster\Web\Parser\RequestParser;
+use Alexzvn\MoneyBooster\Web\WebServer;
 use pocketmine\plugin\PluginBase;
+use pocketmine\scheduler\AsyncTask;
+use pocketmine\scheduler\Task;
 use pocketmine\utils\Config;
-use sekjun9878\RequestParser\Request;
+
 
 class MoneyBooster extends PluginBase {
 
-    protected ?ContainerContract $container;
+    protected ?Driver $driver;
 
-    protected ?AsyncServer $web;
+    protected $web;
+
+    protected ?Config $config;
 
     public function onLoad() : void
     {
         $this->saveDefaultConfig();
 
-        $this->container = Container::getInstance();
+        $this->config = new Config($this->getDataFolder() . '/config.yml');
     }
 
     public function onEnable() : void
@@ -33,19 +36,14 @@ class MoneyBooster extends PluginBase {
 
     public function onDisable() : void
     {
-       $this->container->flush();
-       $this->web->quit();
+       
     }
 
     public function register(): void
     {
-        $this->container->bind(static::class, $this);
-        $this->container->bind(Config::class, $this->getConfig());
-        $this->container->singleton(ContainerContract::class, $this->container);
-
         $this->registerDriver();
-        $this->registerCallback();
         $this->registerCommands();
+        $this->registerWebserver();
         $this->registerCallback();
     }
 
@@ -53,7 +51,7 @@ class MoneyBooster extends PluginBase {
     {
         $mapper = $this->getServer()->getCommandMap();
 
-        $mapper->register('napthe', $this->container->make(NaptheCommand::class));
+        $mapper->register('napthe', new NaptheCommand($this, $this->driver));
     }
 
     public function registerDriver(): void
@@ -61,17 +59,33 @@ class MoneyBooster extends PluginBase {
         $driver = [
             'cardvip' => CardvipDriver::class
 
-        ][$this->getConfig()->get('card.driver')];
+        ][$this->config->getNested('card.driver')];
 
-        $this->container->bind(BoosterDriverContract::class, $driver);
+        $this->driver = new $driver($this->config);
+    }
+
+    public function registerWebserver(): void
+    {
+        $web = new WebServer('0.0.0.0', $this->config->getNested('callback.port'));
+
+        $folder = $this->getDataFolder();
+
+        $this->web = new AsyncServer($web, function ($data) use ($folder) {
+
+            if (file_exists("$folder/pending")) {
+                mkdir("$folder/pending");
+            }
+
+            file_put_contents("$folder/pending/". uniqid(). '.boost', $data);
+        });
+
+        $this->web->start();
     }
 
     public function registerCallback(): void
     {
-        $web = new Server('0.0.0.0', $this->getConfig()->get('callback.port'));
-
-        $this->web = new AsyncServer($web, $this->container->make(Callback::class));
-
-        $this->web->start();
+        $this->getScheduler()->scheduleRepeatingTask(
+            new Callback($this, $this->driver, $this->config), 6000 // run every 5 min
+        );
     }
 }

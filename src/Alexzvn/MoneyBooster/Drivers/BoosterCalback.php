@@ -3,7 +3,7 @@
 namespace Alexzvn\MoneyBooster\Drivers;
 
 use Alexzvn\MoneyBooster\Contracts\BoosterCallbackContract;
-use sekjun9878\RequestParser\Request;
+use Alexzvn\MoneyBooster\Web\Parser\Request;
 
 abstract class BoosterCallback implements BoosterCallbackContract
 {
