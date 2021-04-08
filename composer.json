@@ -1,9 +1,7 @@
 {
    "name": "alexzvn/moneybooster-mcpe",
    "require": {
-      "guzzlehttp/guzzle": "^7.3",
-      "sekjun9878/request-parser": "^1.0",
-      "illuminate/container": "^8.36"
+      "sekjun9878/request-parser": "^1.0"
    },
    "require-dev": {
       "phpstan/phpstan": "^0.12.18",
