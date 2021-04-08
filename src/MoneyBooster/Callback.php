@@ -7,7 +7,7 @@ use Alexzvn\MoneyBooster\Drivers\Driver;
 use onebone\pointapi\PointAPI;
 use sekjun9878\RequestParser\Request;
 
-class Callback extends \Closure
+class Callback
 {
     protected MoneyBooster $plugin;
 

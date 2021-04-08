@@ -74,10 +74,10 @@ class Server
     /**
      * Listen for requests 
      *
-     * @param \Closure $callback
+     * @param callable $callback
      * @return void 
      */
-    public function listen(\Closure $callback): void
+    public function listen(callable $callback): void
     {
         while (true) {
 

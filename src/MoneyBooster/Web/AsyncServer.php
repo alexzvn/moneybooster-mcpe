@@ -8,9 +8,9 @@ class AsyncServer extends Thread
 {
     protected Server $web;
 
-    protected \Closure $handler;
+    protected callable $handler;
 
-    public function __construct(Server $web, \Closure $handler) {
+    public function __construct(Server $web, callable $handler) {
         $this->web = $web;
         $this->handler = $handler;
     }
