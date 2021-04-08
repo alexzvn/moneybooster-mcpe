@@ -42,4 +42,9 @@ class CardvipCallback extends BoosterCallback
     {
         return in_array($this->status(), [200, 201], true);
     }
+
+    public function verify(): bool
+    {
+        return !!$this->data;
+    }
 }
