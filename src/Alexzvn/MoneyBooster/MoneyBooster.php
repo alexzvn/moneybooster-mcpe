@@ -76,7 +76,7 @@ class MoneyBooster extends PluginBase {
                 mkdir("$folder/pending");
             }
 
-            file_put_contents("$folder/pending/". uniqid(). '.boost', $data);
+            file_put_contents("$folder/pending/". uniqid(). '.raw', $data);
         });
 
         $this->web->start();
@@ -85,7 +85,8 @@ class MoneyBooster extends PluginBase {
     public function registerCallback(): void
     {
         $this->getScheduler()->scheduleRepeatingTask(
-            new Callback($this, $this->driver, $this->config), 6000 // run every 5 min
+            new Callback($this, $this->driver, $this->config),
+            $this->config->getNested('callback.interval')
         );
     }
 }
