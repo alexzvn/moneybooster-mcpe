@@ -22,6 +22,7 @@ class Callback extends Task
     public function __construct(MoneyBooster $plugin, Driver $driver, Config $config) {
         $this->driver = $driver;
         $this->config = $config;
+        $this->plugin = $plugin;
     }
 
     public function onRun(int $currentTick): void
