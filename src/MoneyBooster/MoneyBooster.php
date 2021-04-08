@@ -49,14 +49,14 @@ class MoneyBooster extends PluginBase {
         $this->registerCallback();
     }
 
-    public function registerCommands()
+    public function registerCommands(): void
     {
         $mapper = $this->getServer()->getCommandMap();
 
         $mapper->register('napthe', $this->container->make(NaptheCommand::class));
     }
 
-    public function registerDriver()
+    public function registerDriver(): void
     {
         $driver = [
             'cardvip' => CardvipDriver::class
@@ -66,7 +66,7 @@ class MoneyBooster extends PluginBase {
         $this->container->bind(BoosterDriverContract::class, $driver);
     }
 
-    public function registerCallback()
+    public function registerCallback(): void
     {
         $web = new Server('0.0.0.0', $this->getConfig()->get('callback.port'));
 

@@ -18,7 +18,7 @@ class Callback
         $this->driver = $driver;
     }
 
-    protected function handleTransaction(BoosterCallback $request)
+    protected function handleTransaction(BoosterCallback $request): void
     {
         if (! $request->success()) return;
 
@@ -50,7 +50,7 @@ class Callback
         return (int) $amount;
     }
 
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): void
     {
         $this->handleTransaction($this->driver->callback($request));
     }
