@@ -41,6 +41,11 @@ callback:
   # hoặc : http://127.0.0.1:8080
   port: 8080
 
+# Tên plugin
+message_prefix: "[MoneyBooster]"
+
+messages:
+
 # Thưởng thêm, tính theo tỉ lệ %.
 # Mặc định ở dưới là Thưởng thêm 10%
 bonus: 10

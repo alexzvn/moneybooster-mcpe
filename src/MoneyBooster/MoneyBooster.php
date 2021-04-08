@@ -4,7 +4,6 @@ namespace Alexzvn\MoneyBooster;
 
 use Alexzvn\MoneyBooster\Contracts\BoosterDriverContract;
 use Alexzvn\MoneyBooster\Drivers\Cardvip\CardvipDriver;
-use Alexzvn\MoneyBooster\Web\AsyncServer;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\Container as ContainerContract;
 use pocketmine\plugin\PluginBase;
@@ -50,6 +49,7 @@ class MoneyBooster extends PluginBase {
      */
     public function register(): void
     {
+        $this->container->bind(static::class, $this);
         $this->container->singleton(ContainerContract::class, $this->container);
 
         $this->container->bind(Config::class, $this->getConfig());
