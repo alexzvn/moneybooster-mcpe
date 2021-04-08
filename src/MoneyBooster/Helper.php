@@ -22,7 +22,7 @@ final class Helper
         return Container::getInstance()->make(MoneyBooster::class);
     }
 
-    public function driver(): BoosterDriverContract
+    public static function driver(): BoosterDriverContract
     {
         return Container::getInstance()->make(BoosterDriverContract::class);
     }

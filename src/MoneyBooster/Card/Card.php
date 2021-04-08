@@ -37,7 +37,7 @@ abstract class Card implements CardContract
         return $this->code;
     }
 
-    public function amount()
+    public function amount(): int
     {
         return $this->amount;
     }

@@ -11,7 +11,7 @@ use sekjun9878\RequestParser\Request;
 
 class CardvipDriver extends Driver
 {
-    protected static array $cards = [
+    public static array $cards = [
         \Alexzvn\MoneyBooster\Card\Viettel::class,
         \Alexzvn\MoneyBooster\Card\Mobifone::class,
         \Alexzvn\MoneyBooster\Card\Vinaphone::class,

@@ -20,7 +20,7 @@ abstract class Driver implements BoosterDriverContract
     /**
      * @var string[]
      */
-    protected static array $cards = [
+    public static array $cards = [
         // Card that available on driver
     ];
 
@@ -36,26 +36,64 @@ abstract class Driver implements BoosterDriverContract
 
     abstract protected function boot(): void;
 
-    public static function makeCard(string $code, string $seri, int $amount): CardContract
+    /**
+     * Guess card via code & serial
+     * 
+     * @throws Alexzvn\MoneyBooster\Exception\MoreThanOneCardFoundException
+     * @throws Alexzvn\MoneyBooster\Exception\NoCardFoundException
+     *
+     * @param string $code
+     * @param string $seri
+     * @param integer $amount
+     * @return CardContract
+     */
+    public static function guessCard(string $code, string $seri, int $amount): CardContract
     {
-        $card = [];
+        $cards = [];
 
         foreach (static::$cards as $class) {
-            $card[] = new $class($code, $seri, $amount);
+            $card = new $class($code, $seri, $amount);
+
+            if ($card->validate()) {
+                $cards[] = $card;
+            }
         }
 
-        if (count($card) > 1) {
+        if (count($cards) > 1) {
             throw new MoreThanOneCardFoundException();
         }
 
-        if (count($card) ===0) {
+        if (count($cards) ===0) {
             throw new NoCardFoundException();
         }
 
-        return $card[0];
+        return $cards[0];
     }
 
-    abstract public static function callback(Request $request): BoosterCallbackContract;
+    public static function makeCard(string $code, string $serial, int $amount, string $telecom): CardContract
+    {
+        $shortest = -1;
+
+        foreach (static::$cards as $card) {
+            $name = explode('\\', $card);
+            $name = array_pop($name);
+
+            $level = levenshtein($telecom, $name);
+
+            if ($level === 0) {
+                return new $card($code, $serial, $amount);
+            }
+
+            if ($level <= $shortest || $shortest < 0) {
+                $closest = $card;
+                $shortest = $level;
+            }
+        }
+
+        return new $closest($code, $serial, $amount);
+    }
+
+    abstract public function callback(Request $request): BoosterCallbackContract;
 
     /**
      * return endpoint API
