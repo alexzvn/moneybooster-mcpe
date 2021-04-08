@@ -17,6 +17,8 @@ class NaptheCommand extends Command
     protected Driver $driver;
 
     public function __construct(MoneyBooster $plugin, Driver $driver) {
+        parent::__construct('napthe');
+
         $this->plugin = $plugin;
         $this->driver = $driver;
     }
@@ -38,7 +40,9 @@ class NaptheCommand extends Command
             return $this->notifyInvalidCard($sender);
         }
 
-        $response = $this->driver->request($card, $sender);
+        $player   = $sender->getServer()->getPlayer($sender->getName());
+
+        $response = $this->driver->request($card, $player);
 
         if ($response->isError()) {
             $sender->sendMessage('Thẻ không hợp lệ hoặc đã được nạp');
@@ -66,10 +70,10 @@ class NaptheCommand extends Command
         $serial  = (string) $serial;
         $telecom = (string) $telecom;
 
-        if ($telecom) {
-            return $this->driver->makeCard($pin, $serial, $amount, $telecom);
+        if ($telecom !== '') {
+            return Driver::makeCard($pin, $serial, $amount, $telecom);
         }
 
-        return $this->driver->guessCard($pin, $serial, $amount);
+        return Driver::guessCard($pin, $serial, $amount);
     }
 }

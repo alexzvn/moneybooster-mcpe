@@ -42,7 +42,7 @@ abstract class Card implements CardContract
         return $this->amount;
     }
 
-    public function telecomName()
+    public function telecomName(): string
     {
         $mapper = [
             Card::VIETTEL        => 'VIETTEL',
@@ -82,7 +82,7 @@ abstract class Card implements CardContract
      * @param int $length
      * @return bool
      */
-    protected function len($num, int $length)
+    protected function len($num, int $length): bool
     {
         return !! preg_match("/^[0-9]{$length}/", $num);
     }
@@ -102,7 +102,7 @@ abstract class Card implements CardContract
         return $this->validateAmount() && $this->validateNumber();
     }
 
-    public function validateAmount()
+    public function validateAmount(): bool
     {
         return in_array($this->amount, $this->acceptAmounts);
     }

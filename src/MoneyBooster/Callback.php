@@ -2,6 +2,7 @@
 
 namespace Alexzvn\MoneyBooster;
 
+use Alexzvn\MoneyBooster\Contracts\BoosterCallbackContract;
 use Alexzvn\MoneyBooster\Drivers\BoosterCallback;
 use Alexzvn\MoneyBooster\Drivers\Driver;
 use onebone\pointapi\PointAPI;
@@ -18,7 +19,7 @@ class Callback
         $this->driver = $driver;
     }
 
-    protected function handleTransaction(BoosterCallback $request): void
+    protected function handleTransaction(BoosterCallbackContract $request): void
     {
         if (! $request->success()) return;
 

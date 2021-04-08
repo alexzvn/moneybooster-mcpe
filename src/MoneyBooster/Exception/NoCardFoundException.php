@@ -2,4 +2,4 @@
 
 namespace Alexzvn\MoneyBooster\Exception;
 
-class NoCardFoundException extends \Exception {}
+class NoCardFoundException extends \Exception implements \Throwable {}

@@ -60,7 +60,7 @@ class CardvipDriver extends Driver
         return new CardvipResponse($response);
     }
 
-    public static function callback(Request $request): BoosterCallbackContract
+    public function callback(Request $request): BoosterCallbackContract
     {
         return new CardvipCallback($request);
     }
