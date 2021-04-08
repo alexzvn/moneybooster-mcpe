@@ -37,4 +37,9 @@ interface BoosterCallbackContract
      * @return boolean
      */
     public function success(): bool;
+
+    /**
+     * Verify callback
+     */
+    public function verify(): bool;
 }
