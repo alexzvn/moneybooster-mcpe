@@ -72,7 +72,7 @@ class MoneyBooster extends PluginBase {
 
         $this->web = new AsyncServer($web, function ($data) use ($folder) {
 
-            if (file_exists("$folder/pending")) {
+            if (! file_exists("$folder/pending")) {
                 mkdir("$folder/pending");
             }
 
