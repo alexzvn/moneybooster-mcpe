@@ -21,12 +21,12 @@ class CardvipCallback extends BoosterCallback
 
     public function player(): string
     {
-        return $this->data->requestid;
+        return $this->requestid;
     }
 
     public function status(): int
     {
-        switch ($this->data->status) {
+        switch ($this->status) {
             case 200: return static::SUCCESS;
             case 201: return static::WRONG_AMOUNT;
             default: return static::CARD_INVALID;
@@ -46,5 +46,16 @@ class CardvipCallback extends BoosterCallback
     public function verify(): bool
     {
         return !!$this->data;
+    }
+
+    /**
+     * get attr data
+     *
+     * @param string $key
+     * @return mixed|null
+     */
+    public function __get(string $key)
+    {
+        return $this->data->$key ?? null;
     }
 }
