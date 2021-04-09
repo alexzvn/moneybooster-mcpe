@@ -29,4 +29,6 @@ interface CardContract
     public function telecom(): int;
 
     public function validate(): bool;
+
+    public function telecomName(): string;
 }
