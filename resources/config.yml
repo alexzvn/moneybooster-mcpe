@@ -41,10 +41,13 @@ callback:
   # hoặc : http://127.0.0.1:8080
   port: 8080
 
-# Tên plugin
-message_prefix: "[MoneyBooster]"
+  # Thời gian check thẻ tính theo ticks
+  # 20 ticks = 1 giây
+  interval: 6000 # 5 phút
 
+# Thông báo
 messages:
+  prefix: "[MoneyBooster]"
 
 # Thưởng thêm, tính theo tỉ lệ %.
 # Mặc định ở dưới là Thưởng thêm 10%
