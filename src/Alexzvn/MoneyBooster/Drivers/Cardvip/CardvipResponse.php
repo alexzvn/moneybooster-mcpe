@@ -8,7 +8,7 @@ class CardvipResponse extends BoosterResponse
 {
     public function status(): int
     {
-        switch ($this->data->status) {
+        switch ($this->data->status ?? -1) {
             case 200: return static::SUCCESS;
             case 400: return static::DUPLICATED;
             case 401: return static::INVALID;
