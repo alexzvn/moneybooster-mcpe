@@ -99,7 +99,9 @@ abstract class Card implements CardContract
 
     public function validate(): bool
     {
-        return $this->validateAmount() && $this->validateNumber();
+        // for now just validate amount since we don't know
+        // exact pin and serial number look like
+        return $this->validateAmount();
     }
 
     public function validateAmount(): bool
