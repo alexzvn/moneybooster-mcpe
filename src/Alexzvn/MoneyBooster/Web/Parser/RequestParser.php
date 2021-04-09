@@ -147,7 +147,7 @@ class RequestParser
 				}
 				else
 				{
-					$this->content_len = (int) $this->request->headers['Content-Length'] ?? 0;
+					$this->content_len = (int) ($this->request->headers['Content-Length'] ?? 0);
 				}
 
 				$start_content = $end_headers + 4; // $end_headers is before last \r\n\r\n
