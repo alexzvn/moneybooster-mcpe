@@ -10,7 +10,7 @@ description: Plugin đi nạp thẻ cho member
 website: https://github.com/alexzvn/moneybooster-mcpe
 commands:
  napthe:
-  description: Lệnh nạp thẻ
+  description: Lệnh nạp thẻ /napthe <mệnh giá> <mã thẻ> <seri> [loại thẻ]
   usage: "/napthe <mệnh giá> <mã thẻ> <seri> [loại thẻ]"
   permission: moneybooster.napthe.use
 
