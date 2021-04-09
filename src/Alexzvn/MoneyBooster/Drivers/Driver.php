@@ -9,6 +9,7 @@ use Alexzvn\MoneyBooster\Exception\MoreThanOneCardFoundException;
 use Alexzvn\MoneyBooster\Exception\NoCardFoundException;
 use pocketmine\utils\Config;
 use Alexzvn\MoneyBooster\Web\Parser\Request;
+use pocketmine\utils\Internet;
 
 abstract class Driver implements BoosterDriverContract
 {
@@ -97,16 +98,12 @@ abstract class Driver implements BoosterDriverContract
 
     protected function post(string $uri, array $data = [])
     {
-        $context = [
-            'method' => 'POST',
-            'header' => 'Content-type: application/json',
-            'content' => json_encode($data)
-        ];
-
-        $context = stream_context_create(['http' => $context]);
-
         $url = rtrim($this->api(), '/') . '/' . ltrim($uri, '/');
 
-        return file_get_contents($url, false, $context);
+        $response = Internet::postURL($url, json_encode($data), 5, [
+            'Content-Type: application/json'
+        ]);
+
+        return $response === false ? '' : $response;
     }
 }
