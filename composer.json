@@ -18,6 +18,7 @@
       "test": "vendor/bin/phpstan analyze",
       "dev": "composer install --ignore-platform-reqs",
       "production": "rm -rf vendor && rm -rf dist && mkdir dist",
-      "build": "composer run production && php -dphar.readonly=0 compiler.php --make ./ --out dist/MoneyBooster-1.0.0.phar"
+      "build": "composer run production && php -dphar.readonly=0 compiler.php --make ./ --out dist/MoneyBooster-1.0.0.phar",
+      "build-dev": "php -dphar.readonly=0 compiler.php --make ./ --out dist/MoneyBooster-1.0.0.phar"
    }
 }
