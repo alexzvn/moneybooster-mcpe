@@ -7,7 +7,7 @@ final class Gate extends Card
     public function validateNumber(): bool
     {
         return $this->len($this->code, 11) &&
-            preg_match('/^CB[0-9]{8}$/', $this->seri);
+            preg_match('/^(CB|CJ)[0-9]{8}$/', $this->seri);
     }
 
     protected function getAcceptAmounts(): array
