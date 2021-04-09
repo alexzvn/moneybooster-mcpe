@@ -3,7 +3,6 @@
 namespace Alexzvn\MoneyBooster;
 
 use Alexzvn\MoneyBooster\Contracts\BoosterCallbackContract;
-use Alexzvn\MoneyBooster\Drivers\BoosterCallback;
 use Alexzvn\MoneyBooster\Drivers\Driver;
 use onebone\pointapi\PointAPI;
 use pocketmine\utils\Config;
@@ -42,7 +41,7 @@ class Callback extends Task
 
     protected function handleTransaction(BoosterCallbackContract $request): void
     {
-        if (! $request->success()) return;
+        if (! $request->verify() || !$request->success()) return;
 
         $pointAPI = PointAPI::getInstance();
 
