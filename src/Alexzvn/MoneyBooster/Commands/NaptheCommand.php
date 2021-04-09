@@ -9,18 +9,19 @@ use Alexzvn\MoneyBooster\Exception\NoCardFoundException;
 use Alexzvn\MoneyBooster\MoneyBooster;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
+use pocketmine\command\ConsoleCommandSender;
 
 class NaptheCommand extends Command
 {
-    protected MoneyBooster $plugin;
-
     protected Driver $driver;
 
-    public function __construct(MoneyBooster $plugin, Driver $driver) {
+    protected MoneyBooster $plugin;
+
+    public function __construct(Driver $driver, MoneyBooster $moneyBooster) {
         parent::__construct('napthe');
 
-        $this->plugin = $plugin;
         $this->driver = $driver;
+        $this->plugin = $moneyBooster;
     }
 
     public function execute(CommandSender $sender, string $label, array $params): bool
@@ -28,7 +29,7 @@ class NaptheCommand extends Command
         try {
             $card = $this->getCard($params);
 
-        } catch (NoCardFoundException $th) {
+        } catch (NoCardFoundException $th) { 
             return $this->notifyInvalidCard($sender);
 
         } catch (MoreThanOneCardFoundException $th) {
@@ -38,6 +39,11 @@ class NaptheCommand extends Command
 
         if ($card->validate() === false) {
             return $this->notifyInvalidCard($sender);
+        }
+
+        if ($sender instanceof ConsoleCommandSender) {
+            $sender->sendMessage("you're form console?");
+            return false;
         }
 
         $player   = $sender->getServer()->getPlayer($sender->getName());
@@ -63,17 +69,15 @@ class NaptheCommand extends Command
 
     protected function getCard(array $params): CardContract
     {
-        @[$amount, $pin, $serial, $telecom] = $params;
-
-        $amount  = (int) $amount;
-        $pin     = (string) $pin;
-        $serial  = (string) $serial;
-        $telecom = (string) $telecom;
+        $amount  = (int) array_shift($params);
+        $pin     = (string) array_shift($params);
+        $serial  = (string) array_shift($params);
+        $telecom = (string) array_shift($params);
 
         if ($telecom !== '') {
-            return Driver::makeCard($pin, $serial, $amount, $telecom);
+            return $this->driver->makeCard($pin, $serial, $amount, $telecom);
         }
 
-        return Driver::guessCard($pin, $serial, $amount);
+        return $this->driver->guessCard($pin, $serial, $amount);
     }
 }
