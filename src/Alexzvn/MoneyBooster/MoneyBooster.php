@@ -6,11 +6,10 @@ use Alexzvn\MoneyBooster\Commands\NaptheCommand;
 use Alexzvn\MoneyBooster\Drivers\Cardvip\CardvipDriver;
 use Alexzvn\MoneyBooster\Drivers\Driver;
 use Alexzvn\MoneyBooster\Web\AsyncServer;
-use Alexzvn\MoneyBooster\Web\Parser\RequestParser;
 use Alexzvn\MoneyBooster\Web\WebServer;
+use pocketmine\command\Command;
+use pocketmine\command\CommandSender;
 use pocketmine\plugin\PluginBase;
-use pocketmine\scheduler\AsyncTask;
-use pocketmine\scheduler\Task;
 use pocketmine\utils\Config;
 
 
@@ -47,11 +46,22 @@ class MoneyBooster extends PluginBase {
         $this->registerCallback();
     }
 
+    public function onCommand(CommandSender $sender, Command $command, string $label, array $params): bool
+    {
+        $napthe = new NaptheCommand($this->driver, $this);
+
+        if ($command->getName() === $napthe->getName()) {
+            return $napthe->execute($sender, $label, $params);
+        }
+
+        return true;
+    }
+
     public function registerCommands(): void
     {
         $mapper = $this->getServer()->getCommandMap();
 
-        $mapper->register('napthe', new NaptheCommand($this, $this->driver));
+        $mapper->register('napthe', new NaptheCommand($this->driver, $this));
     }
 
     public function registerDriver(): void
